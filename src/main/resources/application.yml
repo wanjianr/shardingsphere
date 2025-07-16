@@ -10,3 +10,6 @@ mybatis-plus:
   mapper-locations: classpath:/mapper/*.xml
   type-aliases-package: com.app.miniapp.shardingdemo.entity
 
+logging:
+  level:
+    com.app.miniapp.shardingdemo.mapper: debug

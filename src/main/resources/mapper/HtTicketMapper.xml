@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.app.miniapp.shardingdemo.mapper.HtTicketMapper">
+
+    <select id="selectJoinFileList" resultType="com.app.miniapp.shardingdemo.dto.TicketJoinFile">
+        SELECT
+        t.id,
+        t.year,
+        t.ticket_no,
+        t.create_time,
+        f.file_id
+        FROM ht_ticket t
+        LEFT JOIN ht_file f ON t.year = f.year
+        <where>
+            <if test="year != null and year != ''">
+                AND t.year = #{year}
+            </if>
+            <if test="ticketNo != null and ticketNo != ''">
+                AND t.ticket_no = #{ticketNo}
+            </if>
+            <if test="fileId != null and fileId != ''">
+                AND f.file_id = #{fileId}
+            </if>
+        </where>
+    </select>
+
+</mapper>
