@@ -2,13 +2,16 @@ package com.app.miniapp;
 
 import com.app.miniapp.shardingdemo.dto.TicketJoinFile;
 import com.app.miniapp.shardingdemo.entity.HtFile;
+import com.app.miniapp.shardingdemo.entity.HtHint;
 import com.app.miniapp.shardingdemo.entity.HtPay;
 import com.app.miniapp.shardingdemo.entity.HtTicket;
 import com.app.miniapp.shardingdemo.service.HtFileService;
+import com.app.miniapp.shardingdemo.service.HtHintService;
 import com.app.miniapp.shardingdemo.service.HtPayService;
 import com.app.miniapp.shardingdemo.service.HtTicketService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.ibatis.logging.stdout.StdOutImpl;
+import org.apache.shardingsphere.infra.hint.HintManager;
 import org.apache.shardingsphere.infra.util.json.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,18 +55,19 @@ public class ShardingTests {
         ticket.setTicketNo("T2025001");
         ticket.setCreateTime(new Date());
         // 将路由到 ht_ticket_2024 表
-        ticketService.save(ticket);
+        ticketService.saveHtTicket(ticket);
     }
 
     @Test
-    void testSavePayService() {
-        // 注意字段类型，若不满足则需要编写对应的分片算法类PayTableShardingAlgorithm
-        HtPay pay = new HtPay();
-        pay.setAmount(102.0);
-        pay.setOrderId("20240502");
-        pay.setCreateTime(new Date());
-        payService.save(pay);
+    void testMybatisSaveBatch() {
+        List<HtTicket> tickets = Arrays.asList(
+                new HtTicket("2025", "T2025001", new Date())
+        );
+        // 将路由到 ht_ticket_2024 表
+        ticketService.saveBatch(tickets);
     }
+
+
 
     // 单表测试 - 未命中分片字段
     @Test
@@ -75,15 +79,7 @@ public class ShardingTests {
         List<HtTicket> tickets = ticketService.list(ticket);
     }
 
-    // 测试不同分片策略的表关联
-    @Test
-    void testJoinDifferentSharding() {
-        // bindingTables
-        TicketJoinFile ticketJoinFile = new TicketJoinFile();
-        ticketJoinFile.setYear("2024");
-        List<TicketJoinFile> ticketJoinFiles = ticketService.testTicketJoinFile(ticketJoinFile);
-        System.out.println(JsonUtils.toJsonString(ticketJoinFiles));
-    }
+
 
     @Test
     void testBatchOperations() {
@@ -104,8 +100,48 @@ public class ShardingTests {
     }
 
 
-    public static void main(String[] args) {
-        String url = "http://172.16.22.192:34104/realware/pccOrder";
-        System.out.println(url.replace("/pccOrder", "/dlr/orgAccessConfig"));
+    /**
+     * 带运算的表达书 或 通过Java类实现
+     */
+    @Test
+    void testSavePayService() {
+        // 注意字段类型，若不满足则需要编写对应的分片算法类PayTableShardingAlgorithm
+        HtPay pay = new HtPay();
+        pay.setAmount(102);
+        pay.setOrderId("20240500");
+        pay.setCreateTime(new Date());
+        payService.save(pay);
+    }
+
+
+    /**
+     * 多表分片绑定测试  bindingTables
+     */
+    @Test
+    void testJoinDifferentSharding() {
+        // bindingTables
+        TicketJoinFile ticketJoinFile = new TicketJoinFile();
+        ticketJoinFile.setYear("2024");
+        List<TicketJoinFile> ticketJoinFiles = ticketService.testTicketJoinFile(ticketJoinFile);
+        System.out.println(JsonUtils.toJsonString(ticketJoinFiles));
+    }
+
+
+    /**
+     * 强制分片  HT_HINT_CLASS
+     */
+
+    @Autowired
+    private HtHintService htHintService;
+
+    @Test
+    void testHint() {
+        try (HintManager hintManager = HintManager.getInstance()) {
+            hintManager.addTableShardingValue("ht_hint", 0);
+            HtHint hint = new HtHint();
+            hint.setId(System.currentTimeMillis());
+            hint.setName("Hint写入测试");
+            htHintService.save(hint);
+        }
     }
 }

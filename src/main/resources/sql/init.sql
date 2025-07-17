@@ -22,12 +22,35 @@ CREATE TABLE `ht_file_2025` LIKE `ht_file`;
 CREATE TABLE `ht_file_2026` LIKE `ht_file`;
 
 
-CREATE TABLE `ht_pay` (
+CREATE TABLE `ht_pay_0` (
                            `id` BIGINT PRIMARY KEY,
                            `order_id` VARCHAR(50) NOT NULL,
-                           `amount` DOUBLE NOT NULL,
+                           `amount` int NOT NULL,
                            `create_time` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文件信息';
 
-CREATE TABLE `ht_pay_0` LIKE `ht_pay`;
-CREATE TABLE `ht_pay_1` LIKE `ht_pay`;
+CREATE TABLE `ht_pay_1` LIKE `ht_pay_0`;
+
+-- hint 分片
+CREATE TABLE ht_hint_0 (
+                           id BIGINT PRIMARY KEY,
+                           name VARCHAR(100)
+);
+CREATE TABLE ht_hint_1 LIKE ht_hint_0;
+CREATE TABLE ht_hint_2 LIKE ht_hint_0;
+
+-- 不分表
+CREATE TABLE ht_log (
+                        id BIGINT PRIMARY KEY,
+                        content TEXT
+);
+
+
+CREATE TABLE `ht_prov_trans` (
+                             `id` BIGINT PRIMARY KEY,
+                             `year` VARCHAR(4) NOT NULL,
+                             `prov` VARCHAR(6) NOT NULL,
+                             `amount` DOUBLE NOT NULL,
+                             `create_time` datetime DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='票据信息';
+

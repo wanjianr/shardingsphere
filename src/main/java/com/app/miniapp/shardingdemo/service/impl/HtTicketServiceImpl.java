@@ -5,6 +5,7 @@ import com.app.miniapp.shardingdemo.entity.HtTicket;
 import com.app.miniapp.shardingdemo.mapper.HtTicketMapper;
 import com.app.miniapp.shardingdemo.service.HtTicketService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +26,12 @@ import java.util.List;
  * @since java 1.8
  */
 @Service
-public class HtTicketServiceImpl implements HtTicketService {
+public class HtTicketServiceImpl extends ServiceImpl<HtTicketMapper, HtTicket> implements HtTicketService {
 
     @Autowired
     private HtTicketMapper htTicketMapper;
 
-    public void save(HtTicket ticket) {
+    public void saveHtTicket(HtTicket ticket) {
         htTicketMapper.insert(ticket);
     }
 

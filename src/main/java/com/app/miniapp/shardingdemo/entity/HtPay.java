@@ -26,6 +26,6 @@ public class HtPay {
     @TableId
     private Long id;
     private String orderId;
-    private Double amount;
+    private Integer amount;
     private Date createTime;
 }

@@ -3,7 +3,6 @@ package com.app.miniapp.shardingdemo.algorithm;
 import org.apache.shardingsphere.sharding.api.sharding.standard.PreciseShardingValue;
 import org.apache.shardingsphere.sharding.api.sharding.standard.RangeShardingValue;
 import org.apache.shardingsphere.sharding.api.sharding.standard.StandardShardingAlgorithm;
-import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
@@ -21,7 +20,6 @@ import java.util.Collection;
  * @see
  * @since java 1.8
  */
-@Component
 public class PayTableShardingAlgorithm implements StandardShardingAlgorithm<String> {
     @Override
     public String doSharding(Collection<String> availableTargetNames, PreciseShardingValue<String> shardingValue) {
@@ -37,5 +35,4 @@ public class PayTableShardingAlgorithm implements StandardShardingAlgorithm<Stri
         return collection;
     }
 
-    // Other required methods...
 }

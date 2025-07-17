@@ -3,6 +3,7 @@ package com.app.miniapp.shardingdemo.service;
 import com.app.miniapp.shardingdemo.dto.TicketJoinFile;
 import com.app.miniapp.shardingdemo.entity.HtTicket;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
@@ -20,8 +21,8 @@ import java.util.List;
  * @see
  * @since java 1.8
  */
-public interface HtTicketService {
-    void save(HtTicket ticket);
+public interface HtTicketService extends IService<HtTicket> {
+    void saveHtTicket(HtTicket ticket);
 
     List<HtTicket> list(HtTicket htTicket);
 

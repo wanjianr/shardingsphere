@@ -30,4 +30,12 @@ public class HtTicket {
     private String year;
     private String ticketNo;
     private Date createTime;
+
+    public HtTicket() {
+    }
+    public HtTicket(String year, String ticketNo, Date date) {
+        this.ticketNo = ticketNo;
+        this.year = year;
+        this.createTime = date;
+    }
 }
