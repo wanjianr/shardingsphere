@@ -1,16 +1,9 @@
 package com.app.miniapp;
 
 import com.app.miniapp.shardingdemo.dto.TicketJoinFile;
-import com.app.miniapp.shardingdemo.entity.HtFile;
-import com.app.miniapp.shardingdemo.entity.HtHint;
-import com.app.miniapp.shardingdemo.entity.HtPay;
-import com.app.miniapp.shardingdemo.entity.HtTicket;
-import com.app.miniapp.shardingdemo.service.HtFileService;
-import com.app.miniapp.shardingdemo.service.HtHintService;
-import com.app.miniapp.shardingdemo.service.HtPayService;
-import com.app.miniapp.shardingdemo.service.HtTicketService;
+import com.app.miniapp.shardingdemo.entity.*;
+import com.app.miniapp.shardingdemo.service.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import org.apache.ibatis.logging.stdout.StdOutImpl;
 import org.apache.shardingsphere.infra.hint.HintManager;
 import org.apache.shardingsphere.infra.util.json.JsonUtils;
 import org.junit.jupiter.api.Test;
@@ -47,7 +40,9 @@ public class ShardingTests {
     @Autowired
     private HtFileService fileService;
 
-    // 单表测试 - 命中分片字段
+    /**
+     * 命中分片字段
+     */
     @Test
     void testInsertWithShardingColumn() {
         HtTicket ticket = new HtTicket();
@@ -58,18 +53,9 @@ public class ShardingTests {
         ticketService.saveHtTicket(ticket);
     }
 
-    @Test
-    void testMybatisSaveBatch() {
-        List<HtTicket> tickets = Arrays.asList(
-                new HtTicket("2025", "T2025001", new Date())
-        );
-        // 将路由到 ht_ticket_2024 表
-        ticketService.saveBatch(tickets);
-    }
-
-
-
-    // 单表测试 - 未命中分片字段
+    /**
+     * 未命中分片字段 使用union ALL 拼接
+     */
     @Test
     void testQueryWithoutShardingColumn() {
         HtTicket ticket = new HtTicket();
@@ -77,18 +63,38 @@ public class ShardingTests {
 //        ticket.setYear("2024");
         // 会遍历所有分片表
         List<HtTicket> tickets = ticketService.list(ticket);
+        System.out.println(JsonUtils.toJsonString(tickets));
     }
 
 
-
+    /**
+     * 批量更新未命中分片字段
+     */
     @Test
-    void testBatchOperations() {
+    void testBatchUpdO() {
+        HtTicket ticket = new HtTicket();
+        ticket.setYear("2025");
+        ticket.setTicketNo("T2025002");
+        List<HtTicket> list = ticketService.list(ticket);
+        System.out.println(JsonUtils.toJsonString(list));
+
+        HtTicket htTicket = list.get(0);
+        htTicket.setTicketNo("T2025003");
+        ticketService.updateTicketNo(htTicket);
+    }
+
+    /**
+     * 批量保存不同年度的记录
+     */
+    @Test
+    void testBatchSaveOperations() {
         List<HtFile> files = Arrays.asList(
                 createFile("2024", "F001"),
                 createFile("2025", "F002")
         );
         fileService.saveBatch(files);
     }
+
 
     private HtFile createFile(String year, String fileId) {
         HtFile file = new HtFile();
@@ -143,5 +149,32 @@ public class ShardingTests {
             hint.setName("Hint写入测试");
             htHintService.save(hint);
         }
+    }
+
+    /**
+     * 多条件分表路由配置
+     */
+
+    @Autowired
+    private HtProvTransService htProvTransService;
+
+    @Test
+    void testSaveProvTrans() {
+        HtProvTrans htProvTrans = new HtProvTrans();
+        htProvTrans.setYear("2025");
+        htProvTrans.setProv("430000");
+        htProvTrans.setAmount(100.2);
+        htProvTrans.setCreateTime(new Date());
+        htProvTransService.save(htProvTrans);
+    }
+
+    @Test
+    void testQuryProvTrans() {
+
+        LambdaQueryWrapper<HtProvTrans> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(HtProvTrans::getYear, "2024")
+                .eq(HtProvTrans::getProv, "430000");
+        List<HtProvTrans> list = htProvTransService.list(wrapper);
+        System.out.println(JsonUtils.toJsonString(list));
     }
 }

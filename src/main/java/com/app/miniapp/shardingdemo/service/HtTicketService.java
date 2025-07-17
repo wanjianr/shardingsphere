@@ -27,4 +27,6 @@ public interface HtTicketService extends IService<HtTicket> {
     List<HtTicket> list(HtTicket htTicket);
 
     List<TicketJoinFile> testTicketJoinFile(TicketJoinFile htTicket);
+
+    void updateTicketNo(HtTicket htTicket);
 }

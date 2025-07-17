@@ -46,11 +46,14 @@ CREATE TABLE ht_log (
 );
 
 
-CREATE TABLE `ht_prov_trans` (
+CREATE TABLE `ht_prov_trans_2024` (
                              `id` BIGINT PRIMARY KEY,
                              `year` VARCHAR(4) NOT NULL,
                              `prov` VARCHAR(6) NOT NULL,
                              `amount` DOUBLE NOT NULL,
                              `create_time` datetime DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='票据信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='省交易信息';
+
+CREATE TABLE ht_prov_trans_2025 LIKE ht_prov_trans_2024;
+CREATE TABLE ht_prov_trans_2026 LIKE ht_prov_trans_2024;
 

@@ -1,8 +1,8 @@
 package com.app.miniapp.shardingdemo.service.impl;
 
-import com.app.miniapp.shardingdemo.entity.HtHint;
-import com.app.miniapp.shardingdemo.mapper.HtHintMapper;
-import com.app.miniapp.shardingdemo.service.HtHintService;
+import com.app.miniapp.shardingdemo.entity.HtProvTrans;
+import com.app.miniapp.shardingdemo.mapper.HtProvTransMapper;
+import com.app.miniapp.shardingdemo.service.HtProvTransService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +21,6 @@ import org.springframework.stereotype.Service;
  * @since java 1.8
  */
 @Service
-public class HtHintServiceImpl extends ServiceImpl<HtHintMapper, HtHint> implements HtHintService {
+public class HtProvTransServiceImpl extends ServiceImpl<HtProvTransMapper, HtProvTrans> implements HtProvTransService {
+
 }

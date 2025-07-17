@@ -21,16 +21,25 @@ import java.util.LinkedHashSet;
  * @see
  * @since java 1.8
  */
-@Component
 public class TransComplexShardingAlgorithm implements ComplexKeysShardingAlgorithm<String> {
 
     @Override
     public Collection<String> doSharding(Collection<String> availableTargetNames,
                                          ComplexKeysShardingValue<String> shardingValue) {
         Integer year = Integer.parseInt(shardingValue.getColumnNameAndShardingValuesMap().get("year").iterator().next().toString());
-        String fileType = shardingValue.getColumnNameAndShardingValuesMap().get("file_type").iterator().next().toString();
-
-        String suffix = (year % 2 == 0 && "IMG".equalsIgnoreCase(fileType)) ? "2024" : "2025";
+        String prov = shardingValue.getColumnNameAndShardingValuesMap().get("prov").iterator().next().toString();
+        String suffix;
+        if (year == 2024 || year == 2025 || year == 2026) {
+            suffix = year.toString();
+        } else {
+            if (prov.startsWith("43") || prov.startsWith("44")) {
+                suffix = "2024";
+            } else if (prov.startsWith("50") || prov.startsWith("51")) {
+                suffix = "2025";
+            } else {
+                suffix = "2026";
+            }
+        }
         Collection<String> result = new LinkedHashSet<>();
         for (String targetName : availableTargetNames) {
             if (targetName.endsWith(suffix)) {

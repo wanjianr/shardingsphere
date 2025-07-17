@@ -5,6 +5,7 @@ import com.app.miniapp.shardingdemo.entity.HtTicket;
 import com.app.miniapp.shardingdemo.mapper.HtTicketMapper;
 import com.app.miniapp.shardingdemo.service.HtTicketService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,5 +50,13 @@ public class HtTicketServiceImpl extends ServiceImpl<HtTicketMapper, HtTicket> i
     @Override
     public List<TicketJoinFile> testTicketJoinFile(TicketJoinFile ticketJoinFile) {
         return htTicketMapper.selectJoinFileList(ticketJoinFile);
+    }
+
+    @Override
+    public void updateTicketNo(HtTicket htTicket) {
+        LambdaUpdateWrapper<HtTicket> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(HtTicket::getId, htTicket.getId())
+                     .set(HtTicket::getTicketNo, htTicket.getTicketNo());
+        htTicketMapper.update(null, updateWrapper);
     }
 }
