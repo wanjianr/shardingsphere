@@ -2,7 +2,6 @@ package com.app.miniapp.shardingdemo.service;
 
 import com.app.miniapp.shardingdemo.dto.TicketJoinFile;
 import com.app.miniapp.shardingdemo.entity.HtTicket;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

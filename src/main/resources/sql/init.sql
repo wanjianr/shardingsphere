@@ -57,3 +57,15 @@ CREATE TABLE `ht_prov_trans_2024` (
 CREATE TABLE ht_prov_trans_2025 LIKE ht_prov_trans_2024;
 CREATE TABLE ht_prov_trans_2026 LIKE ht_prov_trans_2024;
 
+CREATE TABLE `user_order_0` (
+                                      `order_id` BIGINT PRIMARY KEY,
+                                      `user_name` VARCHAR(100) NULL,
+                                      `amount` DOUBLE NOT NULL,
+                                      `create_time` datetime DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='省交易信息';
+
+CREATE TABLE user_order_1 LIKE user_order_0;
+CREATE TABLE user_order_2 LIKE user_order_0;
+CREATE TABLE user_order_3 LIKE user_order_0;
+CREATE TABLE user_order_4 LIKE user_order_0;
+CREATE TABLE user_order_5 LIKE user_order_0;

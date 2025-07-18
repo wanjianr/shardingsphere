@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -177,4 +178,27 @@ public class ShardingTests {
         List<HtProvTrans> list = htProvTransService.list(wrapper);
         System.out.println(JsonUtils.toJsonString(list));
     }
+
+
+    /**
+     * 按照范围分表
+     */
+    @Autowired
+    private UserOrderService userOrderService;
+
+    @Test
+    void testUserOrder() {
+        UserOrder userOrder = new UserOrder();
+        userOrder.setOrderId(6L);
+        userOrder.setAmount(new BigDecimal(122));
+        userOrder.setCreateTime(new Date());
+        userOrderService.save(userOrder);
+
+        // 查询
+//        LambdaQueryWrapper<UserOrder> wrapper = new LambdaQueryWrapper<>();
+//        wrapper.eq(UserOrder::getUserId, 1001L);
+//        List<UserOrder> orders = userOrderService.list(wrapper);
+//        System.out.println(JsonUtils.toJsonString(orders));
+    }
+
 }
