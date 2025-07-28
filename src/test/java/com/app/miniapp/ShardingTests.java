@@ -47,11 +47,21 @@ public class ShardingTests {
     @Test
     void testInsertWithShardingColumn() {
         HtTicket ticket = new HtTicket();
-        ticket.setYear("2025");
-        ticket.setTicketNo("T2025001");
+        ticket.setYear("2026");
+        ticket.setTicketNo("T2026001");
         ticket.setCreateTime(new Date());
         // 将路由到 ht_ticket_2024 表
         ticketService.saveHtTicket(ticket);
+    }
+
+    @Test
+    public void testTransaction() {
+        HtTicket ticket = new HtTicket();
+        ticket.setYear("2026");
+        ticket.setTicketNo("T2026001");
+        ticket.setCreateTime(new Date());
+        // 测试事务
+        ticketService.testTransaction(ticket);
     }
 
     /**
@@ -69,7 +79,7 @@ public class ShardingTests {
 
 
     /**
-     * 批量更新未命中分片字段
+     * 更新未命中分片字段
      */
     @Test
     void testBatchUpdO() {
@@ -189,7 +199,7 @@ public class ShardingTests {
     @Test
     void testUserOrder() {
         UserOrder userOrder = new UserOrder();
-        userOrder.setOrderId(6L);
+        userOrder.setOrderId(24L);
         userOrder.setAmount(new BigDecimal(122));
         userOrder.setCreateTime(new Date());
         userOrderService.save(userOrder);
@@ -199,6 +209,16 @@ public class ShardingTests {
 //        wrapper.eq(UserOrder::getUserId, 1001L);
 //        List<UserOrder> orders = userOrderService.list(wrapper);
 //        System.out.println(JsonUtils.toJsonString(orders));
+    }
+
+    @Autowired
+    private IdGenService idGenService;
+    @Test
+    void testIdGen() {
+        IdGen idGen = new IdGen();
+        idGen.setYear("2024");
+        idGen.setCreateTime(new Date());
+        idGenService.save(idGen);
     }
 
 }

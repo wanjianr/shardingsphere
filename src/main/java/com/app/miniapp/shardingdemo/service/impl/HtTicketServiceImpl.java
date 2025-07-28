@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -56,7 +57,21 @@ public class HtTicketServiceImpl extends ServiceImpl<HtTicketMapper, HtTicket> i
     public void updateTicketNo(HtTicket htTicket) {
         LambdaUpdateWrapper<HtTicket> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.eq(HtTicket::getId, htTicket.getId())
+//                .eq(HtTicket::getYear, htTicket.getYear())
                      .set(HtTicket::getTicketNo, htTicket.getTicketNo());
         htTicketMapper.update(null, updateWrapper);
+    }
+
+    @Override
+    @Transactional
+    public void testTransaction(HtTicket htTicket) {
+        // 这里可以添加事务逻辑
+        htTicketMapper.insert(htTicket);
+        htTicket.setTicketNo("Updated-" + htTicket.getTicketNo());
+        htTicket.setYear("2025");
+        htTicket.setId(1949637166529880065l);
+        updateTicketNo(htTicket);
+        System.out.println(1/0);
+
     }
 }
