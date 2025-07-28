@@ -35,4 +35,12 @@ public class MiniappApplicationTests {
         // Delete
 //        Assertions.assertTrue(orderService.deleteById(orders.getId()));
     }
+
+    public static void main(String[] args) {
+        String basePath = System.getProperty("user.dir");
+        System.out.println("Base Path: " + basePath);
+        // 获取项目配置文件application.yml的路径
+        String configFilePath = MiniappApplicationTests.class.getClassLoader().getResource("application.yml").getPath();
+        System.out.println("Config File Path: " + configFilePath);
+    }
 }

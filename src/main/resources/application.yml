@@ -1,5 +1,12 @@
 server:
+  #私有云部署不需要配置该端口
   port: 8080
+  max-http-header-size: 1024000
+  servlet:
+    multipart:
+      max-file-size: 50000000
+      max-request-size: 200000000
+    context-path: /app
 
 spring:
   datasource:

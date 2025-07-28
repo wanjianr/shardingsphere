@@ -4,6 +4,13 @@ import com.app.miniapp.shardingdemo.entity.Orders;
 import com.app.miniapp.shardingdemo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.net.URLDecoder;
+import java.util.Properties;
+
 /**
  * <p>PURPOSE:
  * <p>DESCRIPTION:
@@ -44,4 +51,24 @@ public class OrderController {
     public boolean deleteOrder(@PathVariable Long id) {
         return orderService.deleteById(id);
     }
+
+    @GetMapping("/printPath")
+    public void printYmlPath() throws Exception {
+        // 输出user.dir路径
+        String userDir = System.getProperty("user.dir");
+        String filePath = userDir + File.separator + "application.yml";
+        String decode = URLDecoder.decode(filePath, "utf-8");
+        System.out.println(decode);
+
+        File file = new File(filePath);
+        if (file.exists()) {
+
+            Properties configFileProp = new Properties();
+            FileInputStream fileInputStream = new FileInputStream(file);
+
+            configFileProp.load((InputStream) fileInputStream);
+            System.out.println("Properties from file: " + configFileProp.values());
+        }
+    }
+
 }
