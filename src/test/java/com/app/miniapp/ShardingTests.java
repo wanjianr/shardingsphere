@@ -84,7 +84,7 @@ public class ShardingTests {
     @Test
     void testBatchUpdO() {
         HtTicket ticket = new HtTicket();
-        ticket.setYear("2025");
+//        ticket.setYear("2025");
         ticket.setTicketNo("T2025002");
         List<HtTicket> list = ticketService.list(ticket);
         System.out.println(JsonUtils.toJsonString(list));
@@ -125,7 +125,7 @@ public class ShardingTests {
         // 注意字段类型，若不满足则需要编写对应的分片算法类PayTableShardingAlgorithm
         HtPay pay = new HtPay();
         pay.setAmount(102);
-        pay.setOrderId("20240500");
+        pay.setOrderId("20240501");
         pay.setCreateTime(new Date());
         payService.save(pay);
     }
@@ -138,7 +138,7 @@ public class ShardingTests {
     void testJoinDifferentSharding() {
         // bindingTables
         TicketJoinFile ticketJoinFile = new TicketJoinFile();
-        ticketJoinFile.setYear("2024");
+        ticketJoinFile.setYear("2025");
         List<TicketJoinFile> ticketJoinFiles = ticketService.testTicketJoinFile(ticketJoinFile);
         System.out.println(JsonUtils.toJsonString(ticketJoinFiles));
     }
@@ -154,7 +154,7 @@ public class ShardingTests {
     @Test
     void testHint() {
         try (HintManager hintManager = HintManager.getInstance()) {
-            hintManager.addTableShardingValue("ht_hint", 0);
+            hintManager.addTableShardingValue("ht_hint", 1);
             HtHint hint = new HtHint();
             hint.setId(System.currentTimeMillis());
             hint.setName("Hint写入测试");
@@ -172,8 +172,8 @@ public class ShardingTests {
     @Test
     void testSaveProvTrans() {
         HtProvTrans htProvTrans = new HtProvTrans();
-        htProvTrans.setYear("2025");
-        htProvTrans.setProv("430000");
+        htProvTrans.setYear("2027");
+        htProvTrans.setProv("660000");
         htProvTrans.setAmount(100.2);
         htProvTrans.setCreateTime(new Date());
         htProvTransService.save(htProvTrans);
@@ -184,7 +184,7 @@ public class ShardingTests {
 
         LambdaQueryWrapper<HtProvTrans> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(HtProvTrans::getYear, "2024")
-                .eq(HtProvTrans::getProv, "430000");
+                .eq(HtProvTrans::getProv, "660000");
         List<HtProvTrans> list = htProvTransService.list(wrapper);
         System.out.println(JsonUtils.toJsonString(list));
     }
@@ -198,11 +198,13 @@ public class ShardingTests {
 
     @Test
     void testUserOrder() {
-        UserOrder userOrder = new UserOrder();
-        userOrder.setOrderId(24L);
-        userOrder.setAmount(new BigDecimal(122));
-        userOrder.setCreateTime(new Date());
-        userOrderService.save(userOrder);
+        for (int i = 25; i < 26; i++) {
+            UserOrder userOrder = new UserOrder();
+            userOrder.setOrderId((long) (i));
+            userOrder.setAmount(new BigDecimal(100 + i));
+            userOrder.setCreateTime(new Date());
+            userOrderService.save(userOrder);
+        }
 
         // 查询
 //        LambdaQueryWrapper<UserOrder> wrapper = new LambdaQueryWrapper<>();
