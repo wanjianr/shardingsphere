@@ -20,5 +20,16 @@ mybatis-plus:
 logging:
   level:
     com.app.miniapp.shardingdemo.mapper: debug
+    # 这是关键配置，feign客户端日志的核心包
+    feign:
+      client: DEBUG
 
-pcc:
+service:
+  url: http://172.16.101.48:8080/ebc/api/medins/qury/queryUpldRslt
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 50000
+        readTimeout: 20000
