@@ -1,5 +1,6 @@
 package com.app.miniapp.feign.controller;
 
+import com.app.miniapp.feign.dto.RegisterResult;
 import com.app.miniapp.feign.dto.StandardInput;
 import com.app.miniapp.feign.dto.StandardOutput;
 import com.app.miniapp.feign.service.FeignService;
@@ -27,6 +28,12 @@ public class FeignController {
 
     @Autowired
     private FeignService feignService;
+
+    @PostMapping("/signIn")
+    public RegisterResult signIn(@RequestBody StandardInput input) throws Exception {
+        System.out.println("Received signIn input:");
+        return feignService.signIn(input);
+    }
 
     @PostMapping("/callServiceA")
     public StandardOutput callService1(@RequestBody StandardInput input) {

@@ -36,6 +36,10 @@ public class FeignTest {
         System.out.println(JsonUtils.toJsonString(standardOutput));
     }
 
+    @Test
+    void testSign() throws Exception {
+        feignService.signIn(buildInput());
+    }
 
     public StandardInput buildInput() {
         StandardInput standardInput = new StandardInput();
