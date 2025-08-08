@@ -7,7 +7,10 @@ import com.app.miniapp.feign.service.FeignService;
 import org.apache.shardingsphere.infra.util.json.JsonUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * <p>PURPOSE:
@@ -29,6 +32,21 @@ public class FeignTest {
     @Autowired
     private FeignService feignService;
 
+    @Value("${ctj.signNo:fms01}")
+    private String signNo;
+
+    @Test
+    void printCurrentDirectory() {
+        // 打印当前工作目录
+        System.out.println("input:" + signNo + "-");
+    }
+
+
+    public static void main(String[] args) {
+
+        String s = new String(null, StandardCharsets.UTF_8);
+        System.out.println(s);
+    }
     @Test
     void testFeignService() {
         // 测试调用 FeignService 的方法

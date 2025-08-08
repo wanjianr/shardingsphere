@@ -1,0 +1,41 @@
+server:
+  #私有云部署不需要配置该端口
+  port: 8080
+  max-http-header-size: 1024000
+  servlet:
+    multipart:
+      max-file-size: 50000000
+      max-request-size: 200000000
+    context-path: /app
+
+spring:
+  config:
+    import: classpath:application-default.yml
+  datasource:
+    url: jdbc:shardingsphere:classpath:sharding-config.yml
+    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.app.miniapp.shardingdemo.entity
+
+logging:
+  level:
+    com.app.miniapp.shardingdemo.mapper: debug
+    # 这是关键配置，feign客户端日志的核心包
+    feign:
+      client: DEBUG
+
+service:
+  url: http://172.16.101.48:8080/ebc/api/medins/qury/queryUpldRslt
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 50000
+        readTimeout: 20000
+
+ctj:
+  signNo: ""
+  isquerycheckcode: false

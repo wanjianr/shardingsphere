@@ -32,4 +32,7 @@ public interface FeignClientB {
     @PostMapping
     public String callService(URI uri, @RequestBody(required = true) StandardInput input);
 
+    @PostMapping
+    public byte[] callServiceDown(URI uri, @RequestBody(required = true) StandardInput input);
+
 }

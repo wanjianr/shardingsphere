@@ -67,6 +67,10 @@ public class FeignService {
         return feignClientB.callService(URI.create(SERVICE_URL), input);
     }
 
+    public byte[] callServiceDown(StandardInput input) {
+        return feignClientB.callServiceDown(URI.create(SERVICE_URL), input);
+    }
+
     public String callServiceC(StandardInput input) {
         byte[] bytes = feignClientC.callService(URI.create(SERVICE_URL), input);
         return new String(bytes, StandardCharsets.UTF_8);
