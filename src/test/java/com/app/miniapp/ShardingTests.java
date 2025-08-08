@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -223,4 +224,31 @@ public class ShardingTests {
         idGenService.save(idGen);
     }
 
+    @Autowired
+    private AppOrderService appOrderService;
+
+    @Test
+    void appOrderService() {
+//        AppOrder appOrder = new AppOrder();
+//        appOrder.setOrderId(1001L);
+//        appOrder.setOrderName("测试订单");
+//        appOrder.setOrderTime(LocalDateTime.now());
+//        appOrderService.save(appOrder);
+
+        // 查询
+        LambdaQueryWrapper<AppOrder> wrapper = new LambdaQueryWrapper<>();
+//        wrapper.lt(AppOrder::getOrderTime, LocalDateTime.now());
+        List<AppOrder> orders = appOrderService.list(wrapper);
+        System.out.println(JsonUtils.toJsonString(orders));
+    }
+
+    @Test
+    void testDelete() {
+        AppOrder appOrder = new AppOrder();
+//        appOrder.setOrderId(1001L);
+        appOrder.setOrderName("测试订单");
+        appOrder.setAmount(new BigDecimal("1930.23"));
+        appOrderService.save(appOrder);
+
+    }
 }

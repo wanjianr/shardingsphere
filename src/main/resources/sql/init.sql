@@ -77,3 +77,27 @@ CREATE TABLE user_order_2 LIKE user_order_0;
 CREATE TABLE user_order_3 LIKE user_order_0;
 CREATE TABLE user_order_4 LIKE user_order_0;
 CREATE TABLE user_order_5 LIKE user_order_0;
+
+
+CREATE TABLE `app_order_2025_08` (
+                                order_id BIGINT PRIMARY KEY,
+                                order_time DATETIME NOT NULL,
+                                order_name VARCHAR(100)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单年月分表';
+
+CREATE TABLE `app_order_2025_07` (
+                                   order_id BIGINT PRIMARY KEY,
+                                   order_time DATETIME NOT NULL,
+                                   order_name VARCHAR(100)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单年月分表';
+
+
+CREATE TABLE `app_order_amt_0` (
+                                     order_id BIGINT PRIMARY KEY,
+                                     amount DECIMAL(10,2) NOT NULL,
+                                     order_name VARCHAR(100)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单年月分表';
+CREATE TABLE app_order_amt_1 LIKE app_order_amt_0;
+CREATE TABLE app_order_amt_2 LIKE app_order_amt_0;
+CREATE TABLE app_order_amt_3 LIKE app_order_amt_0;
+CREATE TABLE app_order_amt_4 LIKE app_order_amt_0;

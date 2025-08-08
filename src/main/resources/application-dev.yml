@@ -9,8 +9,8 @@ server:
     context-path: /app
 
 spring:
-  config:
-    import: classpath:application-default.yml
+#  config:
+#    import: classpath:application-default.yml
   datasource:
     url: jdbc:shardingsphere:classpath:sharding-config.yml
     driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
