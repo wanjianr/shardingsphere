@@ -16,15 +16,29 @@ import java.util.*;
 public class SumSonarIssueExporter {
 
     public static void main(String[] args) {
+        // bsw-server
         // 严重
 //        String baseUrl = "http://172.16.21.88:5001/api/issues/search?components=bsw-server&s=FILE_LINE&severities=CRITICAL&issueStatuses=CONFIRMED%2COPEN&ps=100&facets=cleanCodeAttributeCategories%2CimpactSoftwareQualities%2Cseverities%2Ctypes%2CimpactSeverities&additionalFields=_all&timeZone=Asia%2FShanghai";
         // 阻断
-        String baseUrl = "http://172.16.21.88:5001/api/issues/search?components=bsw-server&s=FILE_LINE&severities=BLOCKER&issueStatuses=CONFIRMED%2COPEN&ps=100&facets=cleanCodeAttributeCategories%2CimpactSoftwareQualities%2Cseverities%2Ctypes%2CimpactSeverities&additionalFields=_all&timeZone=Asia%2FShanghai";
+//        String baseUrl = "http://172.16.21.88:5001/api/issues/search?components=bsw-server&s=FILE_LINE&severities=BLOCKER&issueStatuses=CONFIRMED%2COPEN&ps=100&facets=cleanCodeAttributeCategories%2CimpactSoftwareQualities%2Cseverities%2Ctypes%2CimpactSeverities&additionalFields=_all&timeZone=Asia%2FShanghai";
+
+        // inc-local
+        // 阻断
+//        String baseUrl = "http://172.16.21.88:5001/api/issues/search?components=hsa-hif-inc-local&s=FILE_LINE&severities=BLOCKER&issueStatuses=CONFIRMED%2COPEN&ps=100&facets=cleanCodeAttributeCategories%2CimpactSoftwareQualities%2Cseverities%2Ctypes%2CimpactSeverities%2CcodeVariants&additionalFields=_all&timeZone=Asia%2FShanghai";
+        // 严重
+//        String baseUrl = "http://172.16.21.88:5001/api/issues/search?components=hsa-hif-inc-local&s=FILE_LINE&severities=CRITICAL&issueStatuses=CONFIRMED%2COPEN&ps=100&facets=cleanCodeAttributeCategories%2CimpactSoftwareQualities%2Cseverities%2Ctypes%2CimpactSeverities&additionalFields=_all&timeZone=Asia%2FShanghai";
+
+        // ebc-mnit
+        // 阻断
+//        String baseUrl = "http://172.16.21.88:5001/api/issues/search?components=hsa-hif-mnit&s=FILE_LINE&severities=BLOCKER&issueStatuses=CONFIRMED%2COPEN&ps=100&facets=cleanCodeAttributeCategories%2CimpactSoftwareQualities%2Cseverities%2Ctypes%2CimpactSeverities&additionalFields=_all&timeZone=Asia%2FShanghai";
+        // 严重
+        String baseUrl = "http://172.16.21.88:5001/api/issues/search?components=hsa-hif-mnit&s=FILE_LINE&severities=CRITICAL&issueStatuses=CONFIRMED,OPEN&ps=100&facets=cleanCodeAttributeCategories,impactSoftwareQualities,severities,types,impactSeverities&additionalFields=_all&timeZone=Asia/Shanghai";
+
         String cookie = "";
         List<SonarIssue> issues = fetchAllIssues(baseUrl, cookie);
         Map<String, SumSonarIssue> ruleSummary = summarizeRules(issues);
         List<SumSonarIssue> summaryList = new ArrayList<>(ruleSummary.values());
-        exportSummaryToExcel(summaryList, "阻断sonar_rule_summary.xlsx");
+        exportSummaryToExcel(summaryList, "严重sonar_rule_summary.xlsx");
         //exportToExcel(issues, "sonar_issues.xlsx");
     }
 
