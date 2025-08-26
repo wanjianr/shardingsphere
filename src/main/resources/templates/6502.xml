@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Voucher>
+    <Id>222002</Id>
+    <AdmDivCode>430000</AdmDivCode>
+    <StYear>2025</StYear>
+    <VtCode>6501</VtCode>
+    <VouDate>20250819</VouDate>
+    <VoucherNo>43000020250820001</VoucherNo>
+    <AgentBusinessNo>43000020250000043002</AgentBusinessNo>
+    <BankCtofferTime>20250820154445</BankCtofferTime>
+    <ReceiptNumber>R20240401011</ReceiptNumber>
+    <ReceiptType>1</ReceiptType>
+    <PayAcctName>张三11</PayAcctName>
+    <PayAcctNo>10526584987546564</PayAcctNo>
+    <PayAcctBankName>中国农业银行北京支行11</PayAcctBankName>
+    <PayAcctBankNo>102100000011</PayAcctBankNo>
+    <BankAcctNo>123456789011</BankAcctNo>
+    <BankAcctName>美丽色彩有限公司11</BankAcctName>
+    <EstbBankName>中国农业银行11</EstbBankName>
+    <IncomeDate>20240411</IncomeDate>
+    <TradeInstitution>美丽色彩旗舰店11</TradeInstitution>
+    <TradeCounter>1号柜台11</TradeCounter>
+    <CurrencyCode>CNY</CurrencyCode>
+    <CurrencyName>人民币1</CurrencyName>
+    <Amt>511.00</Amt>
+    <AddWord>感谢您的购买，祝您使用愉快！11</AddWord>
+    <XSuccFlag></XSuccFlag>
+    <XDspoMsg></XDspoMsg>
+    <DetailList>
+        <Detail>
+            <BizBchno>BCH0009</BizBchno>
+            <Insutype>310</Insutype>
+            <AccrymBegn>202401</AccrymBegn>
+            <AccrymEnd>202412</AccrymEnd>
+            <SetSumAmt>10000.00</SetSumAmt>
+            <OffsiteFlag>1</OffsiteFlag>
+        </Detail>
+        <Detail>
+            <BizBchno>BCH0010</BizBchno>
+            <Insutype>310</Insutype>
+            <AccrymBegn>202401</AccrymBegn>
+            <AccrymEnd>202412</AccrymEnd>
+            <SetSumAmt>10000.00</SetSumAmt>
+            <OffsiteFlag>1</OffsiteFlag>
+        </Detail>
+    </DetailList>
+</Voucher>

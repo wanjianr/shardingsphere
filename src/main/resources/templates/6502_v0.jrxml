@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Receipt" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    <property name="net.sf.jasperreports.export.pdf.font.SimSun.normal" value="net.sf.jasperreports.fonts.extensions.SimSun"/>
+    <style name="ChineseStyle" fontName="SimSun" pdfFontName="STSongStd-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+    <style name="LabelStyle" style="ChineseStyle" fontSize="12" isBold="true"/>
+    <style name="FieldStyle" style="ChineseStyle" fontSize="12"/>
+    <style name="TitleStyle" style="ChineseStyle" fontSize="16" isBold="true"/>
+    <style name="BoxStyle" mode="Opaque" backcolor="#F5F5F5" pen="Thin"/>
+    <queryString language="XPath">
+        <![CDATA[/DOCUMENT]]>
+    </queryString>
+    <field name="headerText" class="java.lang.String">
+        <fieldDescription><![CDATA[text()[1]]]></fieldDescription>
+    </field>
+    <title>
+        <band height="50">
+            <staticText>
+                <reportElement x="0" y="0" width="555" height="30" style="TitleStyle"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[省（自治区、直辖市）医保银行回单]]></text>
+            </staticText>
+        </band>
+    </title>
+    <detail>
+        <band height="500">
+            <!-- Receipt No and Generation Time -->
+            <staticText>
+                <reportElement x="0" y="0" width="150" height="20" style="LabelStyle"/>
+                <text><![CDATA[医保银行回单号：]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="150" y="0" width="200" height="20" style="FieldStyle"/>
+                <textFieldExpression><![CDATA[$F{headerText}.split("\n")[7].trim()]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="20" width="150" height="20" style="LabelStyle"/>
+                <text><![CDATA[生成时间：]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="150" y="20" width="200" height="20" style="FieldStyle"/>
+                <textFieldExpression><![CDATA[$F{headerText}.split("\n")[8].trim().substring(0,4) + "-" + $F{headerText}.split("\n")[8].trim().substring(4,6) + "-" + $F{headerText}.split("\n")[8].trim().substring(6,8) + " " + $F{headerText}.split("\n")[8].trim().substring(8,10) + ":" + $F{headerText}.split("\n")[8].trim().substring(10,12) + ":" + $F{headerText}.split("\n")[8].trim().substring(12,14)]]></textFieldExpression>
+            </textField>
+            <!-- Province -->
+            <textField>
+                <reportElement x="0" y="40" width="555" height="30" style="TitleStyle"/>
+                <textElement textAlignment="Center"/>
+                <textFieldExpression><![CDATA["湖南"]]></textFieldExpression>
+            </textField>
+            <!-- Voucher No -->
+            <staticText>
+                <reportElement x="0" y="70" width="150" height="20" style="LabelStyle"/>
+                <text><![CDATA[银行回单凭证号]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="150" y="70" width="200" height="20" style="FieldStyle"/>
+                <textFieldExpression><![CDATA[$F{headerText}.split("\n")[6].trim() + " " + $F{headerText}.split("\n")[9].trim()]]></textFieldExpression>
+            </textField>
+            <!-- Payer and Receiver Sections -->
+            <rectangle>
+                <reportElement x="0" y="100" width="270" height="100" style="BoxStyle"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="10" y="110" width="100" height="20" style="LabelStyle"/>
+                <text><![CDATA[付款人:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="110" y="110" width="150" height="20" style="FieldStyle"/>
+                <textFieldExpression><![CDATA[$F{headerText}.split("\n")[11].trim()]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="10" y="130" width="100" height="20" style="LabelStyle"/>
+                <text><![CDATA[账户名称:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="110" y="130" width="150" height="20" style="FieldStyle"/>
+                <textFieldExpression><![CDATA[$F{headerText}.split("\n")[11].trim()]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="10" y="150" width="100" height="20" style="LabelStyle"/>
+                <text><![CDATA[账号:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="110" y="150" width="150" height="20" style="FieldStyle"/>
+                <textFieldExpression><![CDATA[$F{headerText}.split("\n")[12].trim()]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="10" y="170" width="100" height="20" style="LabelStyle"/>
+                <text><![CDATA[开户行:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="110" y="170" width="150" height="20" style="FieldStyle"/>
+                <textFieldExpression><![CDATA[$F{headerText}.split("\n")[13].trim()]]></textFieldExpression>
+            </textField>
+            <rectangle>
+                <reportElement x="285" y="100" width="270" height="100" style="BoxStyle"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="295" y="110" width="100" height="20" style="LabelStyle"/>
+                <text><![CDATA[收款人:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="395" y="110" width="150" height="20" style="FieldStyle"/>
+                <textFieldExpression><![CDATA[$F{headerText}.split("\n")[16].trim()]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="295" y="130" width="100" height="20" style="LabelStyle"/>
+                <text><![CDATA[账户名称:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="395" y="130" width="150" height="20" style="FieldStyle"/>
+                <textFieldExpression><![CDATA[$F{headerText}.split("\n")[19].trim()]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="295" y="150" width="100" height="20" style="LabelStyle"/>
+                <text><![CDATA[账号:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="395" y="150" width="150" height="20" style="FieldStyle"/>
+                <textFieldExpression><![CDATA[$F{headerText}.split("\n")[15].trim()]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="295" y="170" width="100" height="20" style="LabelStyle"/>
+                <text><![CDATA[开户行:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="395" y="170" width="150" height="20" style="FieldStyle"/>
+                <textFieldExpression><![CDATA[$F{headerText}.split("\n")[17].trim()]]></textFieldExpression>
+            </textField>
+            <!-- Amount and Note -->
+            <staticText>
+                <reportElement x="0" y="210" width="150" height="20" style="LabelStyle"/>
+                <text><![CDATA[金额（大写）：]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="150" y="210" width="400" height="20" style="FieldStyle"/>
+                <textFieldExpression><![CDATA[Utility.toChineseCapital(java.lang.Double.parseDouble($F{headerText}.split("\n")[23].trim()))]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="230" width="150" height="20" style="LabelStyle"/>
+                <text><![CDATA[金额（小写）：]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="150" y="230" width="200" height="20" style="FieldStyle"/>
+                <textFieldExpression><![CDATA[$F{headerText}.split("\n")[23].trim()]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="250" width="150" height="20" style="LabelStyle"/>
+                <text><![CDATA[摘要：]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="150" y="250" width="400" height="20" style="FieldStyle"/>
+                <textFieldExpression><![CDATA[$F{headerText}.split("\n")[24].trim()]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="270" width="150" height="20" style="LabelStyle"/>
+                <text><![CDATA[回单类型：]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="150" y="270" width="200" height="20" style="FieldStyle"/>
+                <textFieldExpression><![CDATA["普通回单"]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="290" width="150" height="20" style="LabelStyle"/>
+                <text><![CDATA[交易时间：]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="150" y="290" width="200" height="20" style="FieldStyle"/>
+                <textFieldExpression><![CDATA[$F{headerText}.split("\n")[18].trim()]]></textFieldExpression>
+            </textField>
+            <!-- Associated Business Info Table -->
+            <staticText>
+                <reportElement x="0" y="320" width="555" height="20" style="LabelStyle"/>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[关联业务信息]]></text>
+            </staticText>
+            <componentElement>
+                <reportElement x="0" y="340" width="555" height="30"/>
+                <jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+                    <datasetRun subDataset="BusinessInfo">
+                        <dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRXmlDataSource(((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).getDocument(), "/DOCUMENT/list/item")]]></dataSourceExpression>
+                    </datasetRun>
+                    <jr:column width="90">
+                        <columnHeader>
+                            <band height="30">
+                                <staticText>
+                                    <reportElement x="0" y="0" width="90" height="30" style="LabelStyle"/>
+                                    <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                                    <text><![CDATA[业务批次号]]></text>
+                                </staticText>
+                            </band>
+                        </columnHeader>
+                        <detailCell>
+                            <band height="20">
+                                <textField>
+                                    <reportElement x="0" y="0" width="90" height="20" style="FieldStyle"/>
+                                    <textFieldExpression><![CDATA[normalize-space(text()[1])]]></textFieldExpression>
+                                </textField>
+                            </band>
+                        </detailCell>
+                    </jr:column>
+                    <jr:column width="120">
+                        <columnHeader>
+                            <band height="30">
+                                <staticText>
+                                    <reportElement x="0" y="0" width="120" height="30" style="LabelStyle"/>
+                                    <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                                    <text><![CDATA[险种类型]]></text>
+                                </staticText>
+                            </band>
+                        </columnHeader>
+                        <detailCell>
+                            <band height="20">
+                                <textField>
+                                    <reportElement x="0" y="0" width="120" height="20" style="FieldStyle"/>
+                                    <textFieldExpression><![CDATA[normalize-space(text()[2]).equals("310") ? "职工基本医疗保险" : "未知"]]></textFieldExpression>
+                                </textField>
+                            </band>
+                        </detailCell>
+                    </jr:column>
+                    <jr:column width="90">
+                        <columnHeader>
+                            <band height="30">
+                                <staticText>
+                                    <reportElement x="0" y="0" width="90" height="30" style="LabelStyle"/>
+                                    <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                                    <text><![CDATA[费款所属期始]]></text>
+                                </staticText>
+                            </band>
+                        </columnHeader>
+                        <detailCell>
+                            <band height="20">
+                                <textField>
+                                    <reportElement x="0" y="0" width="90" height="20" style="FieldStyle"/>
+                                    <textFieldExpression><![CDATA[normalize-space(text()[3])]]></textFieldExpression>
+                                </textField>
+                            </band>
+                        </detailCell>
+                    </jr:column>
+                    <jr:column width="90">
+                        <columnHeader>
+                            <band height="30">
+                                <staticText>
+                                    <reportElement x="0" y="0" width="90" height="30" style="LabelStyle"/>
+                                    <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                                    <text><![CDATA[费款所属结束]]></text>
+                                </staticText>
+                            </band>
+                        </columnHeader>
+                        <detailCell>
+                            <band height="20">
+                                <textField>
+                                    <reportElement x="0" y="0" width="90" height="20" style="FieldStyle"/>
+                                    <textFieldExpression><![CDATA[normalize-space(text()[4])]]></textFieldExpression>
+                                </textField>
+                            </band>
+                        </detailCell>
+                    </jr:column>
+                    <jr:column width="90">
+                        <columnHeader>
+                            <band height="30">
+                                <staticText>
+                                    <reportElement x="0" y="0" width="90" height="30" style="LabelStyle"/>
+                                    <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                                    <text><![CDATA[结算金额]]></text>
+                                </staticText>
+                            </band>
+                        </columnHeader>
+                        <detailCell>
+                            <band height="20">
+                                <textField>
+                                    <reportElement x="0" y="0" width="90" height="20" style="FieldStyle"/>
+                                    <textFieldExpression><![CDATA[normalize-space(text()[5])]]></textFieldExpression>
+                                </textField>
+                            </band>
+                        </detailCell>
+                    </jr:column>
+                    <jr:column width="75">
+                        <columnHeader>
+                            <band height="30">
+                                <staticText>
+                                    <reportElement x="0" y="0" width="75" height="30" style="LabelStyle"/>
+                                    <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                                    <text><![CDATA[异地标识]]></text>
+                                </staticText>
+                            </band>
+                        </columnHeader>
+                        <detailCell>
+                            <band height="20">
+                                <textField>
+                                    <reportElement x="0" y="0" width="75" height="20" style="FieldStyle"/>
+                                    <textFieldExpression><![CDATA[normalize-space(text()[6]).equals("1") ? "省内异地" : "未知"]]></textFieldExpression>
+                                </textField>
+                            </band>
+                        </detailCell>
+                    </jr:column>
+                </jr:table>
+            </componentElement>
+        </band>
+    </detail>
+    <subDataset name="BusinessInfo">
+        <queryString language="XPath">
+            <![CDATA[/DOCUMENT/list/item]]>
+        </queryString>
+    </subDataset>
+</jasperReport>

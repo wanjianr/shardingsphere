@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<invoice>
+    <invoiceNumber>INV-001</invoiceNumber>
+    <date>2025-08-26</date>
+    <recipient>John Doe</recipient>
+    <amount>$1000.00</amount>
+    <note>Payment for services rendered</note>
+</invoice>
