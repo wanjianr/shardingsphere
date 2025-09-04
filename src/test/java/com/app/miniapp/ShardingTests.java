@@ -131,6 +131,18 @@ public class ShardingTests {
         payService.save(pay);
     }
 
+    /**
+     * 带运算的表达书 或 通过Java类实现
+     */
+    @Test
+    void testQueryPayService() {
+
+        HtPay pay = payService.queryOne("20240501");
+        System.out.println(JsonUtils.toJsonString(pay));
+
+//        List<HtPay> query = payService.query(Arrays.asList("20240501", "20240502"));
+//        System.out.println(JsonUtils.toJsonString(query));
+    }
 
     /**
      * 多表分片绑定测试  bindingTables

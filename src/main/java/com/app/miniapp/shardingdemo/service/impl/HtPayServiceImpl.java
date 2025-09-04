@@ -3,8 +3,11 @@ package com.app.miniapp.shardingdemo.service.impl;
 import com.app.miniapp.shardingdemo.entity.HtPay;
 import com.app.miniapp.shardingdemo.mapper.HtPayMapper;
 import com.app.miniapp.shardingdemo.service.HtPayService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>PURPOSE:
@@ -30,4 +33,20 @@ public class HtPayServiceImpl implements HtPayService {
     public void save(HtPay pay) {
         htPayMapper.insert(pay);
     }
+
+    @Override
+    public List<HtPay> query(List<String> orderIds) {
+        LambdaQueryWrapper<HtPay> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.in(HtPay::getOrderId, orderIds);
+        return htPayMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public HtPay queryOne(String orderId) {
+        LambdaQueryWrapper<HtPay> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.ge(HtPay::getOrderId, orderId);
+        return htPayMapper.selectOne(queryWrapper);
+    }
+
+
 }

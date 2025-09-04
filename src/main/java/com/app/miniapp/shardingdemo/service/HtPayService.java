@@ -2,6 +2,8 @@ package com.app.miniapp.shardingdemo.service;
 
 import com.app.miniapp.shardingdemo.entity.HtPay;
 
+import java.util.List;
+
 /**
  * <p>PURPOSE:
  * <p>DESCRIPTION:
@@ -18,4 +20,9 @@ import com.app.miniapp.shardingdemo.entity.HtPay;
  */
 public interface HtPayService {
     void save(HtPay pay);
+
+    public List<HtPay> query(List<String> orderIds);
+
+    public HtPay queryOne(String orderIds);
+
 }
