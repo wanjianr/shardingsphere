@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /**
  * <p>PURPOSE:
@@ -34,6 +35,21 @@ public class FeignTest {
 
     @Value("${ctj.signNo:fms01}")
     private String signNo;
+
+    @Value("${ctj.piltProv}")
+    private List<String> piltProv;
+
+    @Value("${ctj.dispCnt:5}")
+    private Integer dispCnt;
+    @Test
+    void test() {
+        System.out.println("dispCnt = " + dispCnt);
+        for (String s : piltProv) {
+            System.out.println("s = " + s);
+        }
+        // 打印当前工作目录
+        System.out.println("input:" + piltProv + "-");
+    }
 
     @Test
     void printCurrentDirectory() {
