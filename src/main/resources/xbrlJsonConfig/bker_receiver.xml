@@ -1,0 +1,52 @@
+<xbrlJson id ="bker_receiver" name="银行电子回单-接收方">
+    <!-- 实例文档节点设置 -->
+    <instanceDoc>
+        <nameSpaceRef>
+            <nameSpace nameSpacePrefix = "xsi" nameSpaceURI = "http://www.w3.org/2001/XMLSchema-instance" />
+            <nameSpace nameSpacePrefix = "bker" nameSpaceURI = "http://xbrl.mof.gov.cn/taxonomy/2023-12-31/bker" />
+            <nameSpace nameSpacePrefix = "link" nameSpaceURI = "http://www.xbrl.org/2003/linkbase" />
+            <nameSpace nameSpacePrefix = "xbrli" nameSpaceURI = "http://www.xbrl.org/2003/instance" />
+            <nameSpace nameSpacePrefix = "iso4217" nameSpaceURI = "http://www.xbrl.org/2003/iso4217" />
+            <nameSpace nameSpacePrefix = "xlink" nameSpaceURI = "http://www.w3.org/1999/xlink" />
+        </nameSpaceRef>
+        <SchemaLocationRef value ="http://xbrl.org/2006/xbrldi http://www.xbrl.org/2006/xbrldi-2006.xsd" />
+        <UnitRef>
+            <unit id ="u1" measure ="iso4217:CNY" numerator ="" denominator =""/>
+        </UnitRef>
+        <SchemaRef schemaRef ="bker_receiver_entry_point_2023-12-31.xsd" />
+        <EntityRef identifier = "${UnifiedSocialCreditCodeOfAccountingEntity}" scheme ="http://xbrl.mof.gov.cn"/>
+        <ContextInstantRef instant = "${InformationOfAccountingDocumentsTuple.PostingDate}"/>
+    </instanceDoc>
+    <!-- 对象定义节点 -->
+    <objectDefine>
+    </objectDefine>
+    <!-- json对象映射 -->
+    <jsonObject elementValueType ="string" contextType ="instant" decimals ="2" unitId ="u1" controlData ="">
+        <IdentifyingCode elementName="IdentifyingCode" elementNsName="bker" elementValueType="string"/>
+        <Currency elementName="Currency" elementNsName="bker" elementValueType="string"/>
+        <TransactionAmountInFigures elementName="TransactionAmountInFigures" elementNsName="bker" elementValueType="number"/>
+        <ContractNumber elementName="ContractNumber" elementNsName="bker" elementValueType="string"/>
+        <TypeOfInvoice elementName="TypeOfInvoice" elementNsName="bker" elementValueType="string"/>
+        <DateOfIssue elementName="DateOfIssue" elementNsName="bker" elementValueType="date"/>
+        <UniqueCodeOfInvoice elementName="UniqueCodeOfInvoice" elementNsName="bker" elementValueType="string"/>
+        <AmountPayableAndReceivable elementName="AmountPayableAndReceivable" elementNsName="bker" elementValueType="number"/>
+        <WhetherInvoiceHasBeenClaimed elementName="WhetherInvoiceHasBeenClaimed" elementNsName="bker" elementValueType="string"/>
+        <WhetherReceiptHasBeenBooked elementName="WhetherReceiptHasBeenBooked" elementNsName="bker" elementValueType="string"/>
+        <WhetherReceiptHasBeenReconciled elementName="WhetherReceiptHasBeenReconciled" elementNsName="bker" elementValueType="string"/>
+        <WhetherReceiptHasBeenTransferredToBank elementName="WhetherReceiptHasBeenTransferredToBank" elementNsName="bker" elementValueType="string"/>
+        <UnifiedSocialCreditCodeOfAccountingEntity elementName="UnifiedSocialCreditCodeOfAccountingEntity" elementNsName="bker" elementValueType="string"/>
+        <NameOfAccountingEntity elementName="NameOfAccountingEntity" elementNsName="bker" elementValueType="string"/>
+        <InformationOfAccountingDocumentsTuple elementName="InformationOfAccountingDocumentsTuple" elementNsName="bker" elementValueType="tuple">
+            <NumberOfAccountingDocuments elementName="NumberOfAccountingDocuments" elementNsName="bker" elementValueType="string"/>
+            <PostingDate elementName="PostingDate" elementNsName="bker" elementValueType="date"/>
+            <AccountingPeriod elementName="AccountingPeriod" elementNsName="bker" elementValueType="string"/>
+            <SummaryOfAccountingDocuments elementName="SummaryOfAccountingDocuments" elementNsName="bker" elementValueType="string"/>
+            <InformationOfDebitAndCreditEntryTuple elementName="InformationOfDebitAndCreditEntryTuple" elementNsName="bker" elementValueType="tuple">
+                <DebitOrCredit elementName="DebitOrCredit" elementNsName="bker" elementValueType="string"/>
+                <NameOfGeneralLedgerSubject elementName="NameOfGeneralLedgerSubject" elementNsName="bker" elementValueType="string"/>
+                <NameOfSubsidiaryLedgerSubject elementName="NameOfSubsidiaryLedgerSubject" elementNsName="bker" elementValueType="string"/>
+                <RecordedAmount elementName="RecordedAmount" elementNsName="bker" elementValueType="number"/>
+            </InformationOfDebitAndCreditEntryTuple>
+        </InformationOfAccountingDocumentsTuple>
+    </jsonObject>
+</xbrlJson>

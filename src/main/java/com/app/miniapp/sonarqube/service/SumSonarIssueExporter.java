@@ -16,31 +16,95 @@ import java.util.*;
 public class SumSonarIssueExporter {
 
     public static void main(String[] args) {
-        // bsw-server
-        // 严重
-//        String baseUrl = "http://172.16.21.88:5001/api/issues/search?components=bsw-server&s=FILE_LINE&severities=CRITICAL&issueStatuses=CONFIRMED%2COPEN&ps=100&facets=cleanCodeAttributeCategories%2CimpactSoftwareQualities%2Cseverities%2Ctypes%2CimpactSeverities&additionalFields=_all&timeZone=Asia%2FShanghai";
-        // 阻断
-//        String baseUrl = "http://172.16.21.88:5001/api/issues/search?components=bsw-server&s=FILE_LINE&severities=BLOCKER&issueStatuses=CONFIRMED%2COPEN&ps=100&facets=cleanCodeAttributeCategories%2CimpactSoftwareQualities%2Cseverities%2Ctypes%2CimpactSeverities&additionalFields=_all&timeZone=Asia%2FShanghai";
 
-        // inc-local
-        // 阻断
-//        String baseUrl = "http://172.16.21.88:5001/api/issues/search?components=hsa-hif-inc-local&s=FILE_LINE&severities=BLOCKER&issueStatuses=CONFIRMED%2COPEN&ps=100&facets=cleanCodeAttributeCategories%2CimpactSoftwareQualities%2Cseverities%2Ctypes%2CimpactSeverities%2CcodeVariants&additionalFields=_all&timeZone=Asia%2FShanghai";
-        // 严重
-//        String baseUrl = "http://172.16.21.88:5001/api/issues/search?components=hsa-hif-inc-local&s=FILE_LINE&severities=CRITICAL&issueStatuses=CONFIRMED%2COPEN&ps=100&facets=cleanCodeAttributeCategories%2CimpactSoftwareQualities%2Cseverities%2Ctypes%2CimpactSeverities&additionalFields=_all&timeZone=Asia%2FShanghai";
+//        List<String> componentsList = Arrays.asList(
+//                "bsw-web",
+//                "bsw-server"
+//        );
 
-        // ebc-mnit
-        // 阻断
-//        String baseUrl = "http://172.16.21.88:5001/api/issues/search?components=hsa-hif-mnit&s=FILE_LINE&severities=BLOCKER&issueStatuses=CONFIRMED%2COPEN&ps=100&facets=cleanCodeAttributeCategories%2CimpactSoftwareQualities%2Cseverities%2Ctypes%2CimpactSeverities&additionalFields=_all&timeZone=Asia%2FShanghai";
-        // 严重
-        String baseUrl = "http://172.16.21.88:5001/api/issues/search?components=hsa-hif-mnit&s=FILE_LINE&severities=CRITICAL&issueStatuses=CONFIRMED,OPEN&ps=100&facets=cleanCodeAttributeCategories,impactSoftwareQualities,severities,types,impactSeverities&additionalFields=_all&timeZone=Asia/Shanghai";
+        List<String> componentsList = Arrays.asList(
+                "hsa-cep-bcc",
+                "hsa-cep-bcc-ui",
+                "hsa-cep-ebc",
+                "hsa-cep-ebc-ui",
+                "hsa-ebc-bizmnit",
+                "hsa-ebc-bizmnit-ui",
+                "hsa-ebc-verf",
+                "hsa-ebc-verf-ui",
+                "hsa-hif-inc-local",
+                "hsa-hif-inc-nation",
+                "hsa-hif-inc-nation-ui",
+                "hsa-hif-mnit",
+                "hsa-hif-mnit-ui",
+                "hsa-iep-evp",
+                "templategenerator",
+                "hsa-inc-fgw",
+                "hsa-cep-tsp",
+                "hsa-cep-tsp-ui"
+        );
+
+        List<String> severitiesList = Arrays.asList(
+                "BLOCKER",
+                "CRITICAL"
+        );
+
+        Map<String, String> params = new HashMap<>();
+        params.put("s", "FILE_LINE");
+        params.put("issueStatuses", "CONFIRMED,OPEN");
+        params.put("ps", "100");
+        params.put("facets", "cleanCodeAttributeCategories,impactSoftwareQualities,severities,types,impactSeverities");
+        params.put("additionalFields", "_all");
+        params.put("timeZone", "Asia/Shanghai");
+
+        // 只需要填写两个核心输入
+        for (String components : componentsList) {
+            for (String severities : severitiesList) {
+                singleExport(components, severities, params);
+            }
+        }
+    }
+
+    public static void singleExport(String components, String severities, Map<String, String> params) {
+        String baseUrl = buildBaseUrl("http://172.16.21.201:5001", components, severities, params);
 
         String cookie = "";
         List<SonarIssue> issues = fetchAllIssues(baseUrl, cookie);
         Map<String, SumSonarIssue> ruleSummary = summarizeRules(issues);
         List<SumSonarIssue> summaryList = new ArrayList<>(ruleSummary.values());
-        exportSummaryToExcel(summaryList, "严重sonar_rule_summary.xlsx");
-        //exportToExcel(issues, "sonar_issues.xlsx");
+        StringBuilder sb = new StringBuilder();
+        sb.append(components.replace("-", "_")).append("_").append(severities).append("_").append(issues.size()).append("_sonar_rule_summary.xlsx");
+        exportSummaryToExcel(summaryList, sb.toString());
     }
+
+    private static String buildBaseUrl(String host,
+                                       String components,
+                                       String severities,
+                                       Map<String, String> extraParams) {
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(host).append("/api/issues/search?");
+
+        sb.append("components=").append(encode(components)).append("&");
+        sb.append("severities=").append(encode(severities)).append("&");
+
+        if (extraParams != null) {
+            extraParams.forEach((k, v) -> {
+                sb.append(k).append("=").append(encode(v)).append("&");
+            });
+        }
+
+        // 移除最后一个 &
+        if (sb.charAt(sb.length() - 1) == '&') {
+            sb.deleteCharAt(sb.length() - 1);
+        }
+
+        return sb.toString();
+    }
+
+    private static String encode(String value) {
+        return value.replace(",", "%2C");
+    }
+
 
     private static List<SonarIssue> fetchAllIssues(String baseUrl, String cookie) {
         List<SonarIssue> allIssues = new ArrayList<>();
@@ -129,9 +193,24 @@ public class SumSonarIssueExporter {
             row.createCell(1).setCellValue(summary.getMessage());
             row.createCell(2).setCellValue(summary.getCnt());
             Cell componentsCell = row.createCell(3);
+
+            // todo 目前这里只取第一个元素，现在需要保存所有元素，最终在保存excel时所有的元素保存在一个单元格中，以换行符分隔
+//            if (summary.getComponents() != null) {
+//                List<String> components = summary.getComponents();
+//                componentsCell.setCellValue(components.get(0));
+//            }
+
             if (summary.getComponents() != null) {
                 List<String> components = summary.getComponents();
-                componentsCell.setCellValue(components.get(0));
+
+                // 将所有元素用换行符连接
+                String componentsText = String.join("\n", components);
+                componentsCell.setCellValue(componentsText);
+
+                // 设置单元格自动换行
+                CellStyle wrapStyle = workbook.createCellStyle();
+                wrapStyle.setWrapText(true);
+                componentsCell.setCellStyle(wrapStyle);
             }
         }
 
@@ -158,46 +237,6 @@ public class SumSonarIssueExporter {
             }
         }
     }
-
-//    private static void exportSummaryToExcel(List<SumSonarIssue> summaries, String fileName) {
-//        Workbook workbook = new XSSFWorkbook();
-//        Sheet sheet = workbook.createSheet("Rule Summary");
-//
-//        String[] headers = {"rule", "message", "cnt", "components"};
-//        Row headerRow = sheet.createRow(0);
-//        for (int i = 0; i < headers.length; i++) {
-//            Cell cell = headerRow.createCell(i);
-//            cell.setCellValue(headers[i]);
-//        }
-//
-//        int rowNum = 1;
-//        for (SumSonarIssue summary : summaries) {
-//            Row row = sheet.createRow(rowNum++);
-//            row.createCell(0).setCellValue(summary.getRule());
-//            row.createCell(1).setCellValue(summary.getMessage());
-//            row.createCell(2).setCellValue(summary.getCnt());
-////            Cell componentsCell = row.createCell(3);
-////            if (summary.getComponents() != null) {
-////                componentsCell.setCellValue(String.join("\n", summary.getComponents()));
-////            }
-//        }
-//
-//        for (int i = 0; i < headers.length; i++) {
-//            sheet.autoSizeColumn(i);
-//        }
-//
-//        try (FileOutputStream fileOut = new FileOutputStream(fileName)) {
-//            workbook.write(fileOut);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                workbook.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
 
     private static void exportToExcel(List<SonarIssue> issues, String fileName) {
         Workbook workbook = new XSSFWorkbook();

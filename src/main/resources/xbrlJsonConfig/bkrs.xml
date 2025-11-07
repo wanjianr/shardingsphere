@@ -1,0 +1,65 @@
+<xbrlJson id ="bkrs" name="银行电子对账单">
+    <!-- 实例文档节点设置 -->
+    <instanceDoc>
+        <nameSpaceRef>
+            <nameSpace nameSpacePrefix = "xsi" nameSpaceURI = "http://www.w3.org/2001/XMLSchema-instance" />
+            <nameSpace nameSpacePrefix = "bkrs" nameSpaceURI = "http://xbrl.mof.gov.cn/taxonomy/2023-12-31/bkrs" />
+            <nameSpace nameSpacePrefix = "link" nameSpaceURI = "http://www.xbrl.org/2003/linkbase" />
+            <nameSpace nameSpacePrefix = "xbrli" nameSpaceURI = "http://www.xbrl.org/2003/instance" />
+            <nameSpace nameSpacePrefix = "iso4217" nameSpaceURI = "http://www.xbrl.org/2003/iso4217" />
+            <nameSpace nameSpacePrefix = "xlink" nameSpaceURI = "http://www.w3.org/1999/xlink" />
+        </nameSpaceRef>
+        <SchemaLocationRef value ="http://xbrl.org/2006/xbrldi http://www.xbrl.org/2006/xbrldi-2006.xsd" />
+        <UnitRef>
+            <unit id ="u1" measure ="iso4217:CNY" numerator ="" denominator =""/>
+        </UnitRef>
+        <SchemaRef schemaRef ="bkrs_entry_point_2023-12-31.xsd" />
+        <EntityRef identifier = "${IdentificationCodeOfIssuer}" scheme ="http://xbrl.mof.gov.cn"/>
+        <ContextInstantRef instant = "${PrintDate}"/>
+    </instanceDoc>
+    <!-- 对象定义节点 -->
+    <objectDefine>
+    </objectDefine>
+    <!-- json对象映射 -->
+    <jsonObject elementValueType ="string" contextType ="instant" decimals ="2" unitId ="u1" controlData ="">
+        <IdentificationCodeOfIssuer elementName="IdentificationCodeOfIssuer" elementNsName="bkrs" elementValueType="string"/>
+        <NumberOfBankBranch elementName="NumberOfBankBranch" elementNsName="bkrs" elementValueType="string"/>
+        <Currency elementName="Currency" elementNsName="bkrs" elementValueType="string"/>
+        <CustomerSettlementBankAccount elementName="CustomerSettlementBankAccount" elementNsName="bkrs" elementValueType="string"/>
+        <NameOfCustomerAccount elementName="NameOfCustomerAccount" elementNsName="bkrs" elementValueType="string"/>
+        <CodeOfBankCustomer elementName="CodeOfBankCustomer" elementNsName="bkrs" elementValueType="string"/>
+        <YearOfBankReconciliationStatement elementName="YearOfBankReconciliationStatement" elementNsName="bkrs" elementValueType="string"/>
+        <MonthOfBankReconciliationStatement elementName="MonthOfBankReconciliationStatement" elementNsName="bkrs" elementValueType="string"/>
+        <PrintTimes elementName="PrintTimes" elementNsName="bkrs" elementValueType="string"/>
+        <PrintDate elementName="PrintDate" elementNsName="bkrs" elementValueType="date"/>
+        <Test1PrintDate elementName="Test1PrintDate" elementNsName="bkrs" elementValueType="string"/>
+
+        <InformationOfReconcileDetailsTuple elementName="InformationOfReconcileDetailsTuple" elementNsName="bkrs" elementValueType="tuple">
+            <DateOfBookkeeping elementName="DateOfBookkeeping" elementNsName="bkrs" elementValueType="date"/>
+            <TypesOfBusinessProducts elementName="TypesOfBusinessProducts" elementNsName="bkrs" elementValueType="string"/>
+            <BusinessSerialNumber elementName="BusinessSerialNumber" elementNsName="bkrs" elementValueType="string"/>
+            <TypeOfSourceDocument elementName="TypeOfSourceDocument" elementNsName="bkrs" elementValueType="string"/>
+            <NumberOfSourceDocument elementName="NumberOfSourceDocument" elementNsName="bkrs" elementValueType="string"/>
+            <NotesOfBankElectronicReceipt elementName="NotesOfBankElectronicReceipt" elementNsName="bkrs" elementValueType="string"/>
+            <IdentificationOfCreditOrDebit elementName="IdentificationOfCreditOrDebit" elementNsName="bkrs" elementValueType="string"/>
+            <TransactionAmount elementName="TransactionAmount" elementNsName="bkrs" elementValueType="number"/>
+            <DebitOrCreditOfBalance elementName="DebitOrCreditOfBalance" elementNsName="bkrs" elementValueType="string"/>
+            <AccountBalance elementName="AccountBalance" elementNsName="bkrs" elementValueType="number"/>
+            <TransactionCode elementName="TransactionCode" elementNsName="bkrs" elementValueType="string"/>
+            <AccountOfCounterparty elementName="AccountOfCounterparty" elementNsName="bkrs" elementValueType="string"/>
+            <NameOfCounterparty elementName="NameOfCounterparty" elementNsName="bkrs" elementValueType="string"/>
+            <DepositoryBankOfCounterparty elementName="DepositoryBankOfCounterparty" elementNsName="bkrs" elementValueType="string"/>
+            <Bookkeeper elementName="Bookkeeper" elementNsName="bkrs" elementValueType="string"/>
+            <TimeOfBookkeeping elementName="TimeOfBookkeeping" elementNsName="bkrs" elementValueType="string"/>
+            <JournalAccountOfBookkeeping elementName="JournalAccountOfBookkeeping" elementNsName="bkrs" elementValueType="string"/>
+            <OtherAccountingInformation elementName="OtherAccountingInformation" elementNsName="bkrs" elementValueType="string"/>
+            <TestDetil1 elementName="TestDetil1" elementNsName="bkrs" elementValueType="string"/>
+            <NumberOfBankElectronicReceipt elementName="NumberOfBankElectronicReceipt" elementNsName="bkrs" elementValueType="string"/>
+        </InformationOfReconcileDetailsTuple>
+        <AccountBalanceAtTheEndOfReconciliationCycleAmount elementName="AccountBalanceAtTheEndOfReconciliationCycleAmount" elementNsName="bkrs" elementValueType="number"/>
+        <ReserveBalanceAtTheEndOfReconciliationCycle elementName="ReserveBalanceAtTheEndOfReconciliationCycle" elementNsName="bkrs" elementValueType="number"/>
+        <FrozenBalanceAtTheEndOfReconciliationCycle elementName="FrozenBalanceAtTheEndOfReconciliationCycle" elementNsName="bkrs" elementValueType="number"/>
+        <OverdraftBalanceAtEndOfReconciliationCycle elementName="OverdraftBalanceAtEndOfReconciliationCycle" elementNsName="bkrs" elementValueType="number"/>
+        <AvailableBalanceAtTheEndOfReconciliationCycleAmount elementName="AvailableBalanceAtTheEndOfReconciliationCycleAmount" elementNsName="bkrs" elementValueType="number"/>
+    </jsonObject>
+</xbrlJson>

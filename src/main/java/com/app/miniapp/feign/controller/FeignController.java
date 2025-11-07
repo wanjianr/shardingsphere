@@ -4,6 +4,7 @@ import com.app.miniapp.feign.dto.RegisterResult;
 import com.app.miniapp.feign.dto.StandardInput;
 import com.app.miniapp.feign.dto.StandardOutput;
 import com.app.miniapp.feign.service.FeignService;
+import org.bouncycastle.cert.ocsp.Req;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -86,4 +87,10 @@ public class FeignController {
         return feignService.callServiceC(input);
     }
 
+    @RequestMapping(value = "/Bevpbank.do", method = RequestMethod.POST)
+    public @ResponseBody Object Bevpbank(@RequestBody BankDocInputDTO req) {
+        // todo
+        System.out.println("Received Bevpbank input:");
+        return null;
+    }
 }

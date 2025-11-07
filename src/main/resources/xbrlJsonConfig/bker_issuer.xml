@@ -1,0 +1,55 @@
+<xbrlJson id ="bker_issuer" name="银行电子回单-开具方">
+    <!-- 实例文档节点设置 -->
+    <instanceDoc>
+        <nameSpaceRef>
+            <nameSpace nameSpacePrefix = "xsi" nameSpaceURI = "http://www.w3.org/2001/XMLSchema-instance" />
+            <nameSpace nameSpacePrefix = "bker" nameSpaceURI = "http://xbrl.mof.gov.cn/taxonomy/2023-12-31/bker" />
+            <nameSpace nameSpacePrefix = "link" nameSpaceURI = "http://www.xbrl.org/2003/linkbase" />
+            <nameSpace nameSpacePrefix = "xbrli" nameSpaceURI = "http://www.xbrl.org/2003/instance" />
+            <nameSpace nameSpacePrefix = "iso4217" nameSpaceURI = "http://www.xbrl.org/2003/iso4217" />
+            <nameSpace nameSpacePrefix = "xlink" nameSpaceURI = "http://www.w3.org/1999/xlink" />
+        </nameSpaceRef>
+        <SchemaLocationRef value ="http://xbrl.org/2006/xbrldi http://www.xbrl.org/2006/xbrldi-2006.xsd" />
+        <UnitRef>
+            <unit id ="u1" measure ="iso4217:CNY" numerator ="" denominator =""/>
+        </UnitRef>
+        <SchemaRef schemaRef ="bker_issuer_entry_point_2023-12-31.xsd" />
+        <EntityRef identifier = "${IdentificationCodeOfIssuer}" scheme ="http://xbrl.mof.gov.cn"/>
+        <ContextInstantRef instant = "${IssueDate}"/>
+    </instanceDoc>
+    <!-- 对象定义节点 -->
+    <objectDefine>
+    </objectDefine>
+    <!-- json对象映射 -->
+    <jsonObject elementValueType ="string" contextType ="instant" decimals ="2" unitId ="u1" controlData ="">
+        <IdentifyingCode elementName="IdentifyingCode" elementNsName="bker" elementValueType="string"/>
+        <NumberOfBankElectronicReceipt elementName="NumberOfBankElectronicReceipt" elementNsName="bker" elementValueType="string"/>
+        <TypeOfBankElectronicReceipt elementName="TypeOfBankElectronicReceipt" elementNsName="bker" elementValueType="string"/>
+        <IdentificationCodeOfIssuer elementName="IdentificationCodeOfIssuer" elementNsName="bker" elementValueType="string"/>
+        <IssueDate elementName="IssueDate" elementNsName="bker" elementValueType="date"/>
+        <IdentificationOfCreditOrDebit elementName="IdentificationOfCreditOrDebit" elementNsName="bker" elementValueType="string"/>
+        <IdentificationOfCashOrTransfer elementName="IdentificationOfCashOrTransfer" elementNsName="bker" elementValueType="string"/>
+        <DateOfBookkeeping elementName="DateOfBookkeeping" elementNsName="bker" elementValueType="date"/>
+        <TimeOfBookkeeping elementName="TimeOfBookkeeping" elementNsName="bker" elementValueType="string"/>
+        <Bookkeeper elementName="Bookkeeper" elementNsName="bker" elementValueType="string"/>
+        <JournalAccountOfBookkeeping elementName="JournalAccountOfBookkeeping" elementNsName="bker" elementValueType="string"/>
+        <Currency elementName="Currency" elementNsName="bker" elementValueType="string"/>
+        <TransactionAmountInFigures elementName="TransactionAmountInFigures" elementNsName="bker" elementValueType="number"/>
+        <TypeOfSourceDocument elementName="TypeOfSourceDocument" elementNsName="bker" elementValueType="string"/>
+        <NumberOfSourceDocument elementName="NumberOfSourceDocument" elementNsName="bker" elementValueType="string"/>
+        <BusinessProductType elementName="BusinessProductType" elementNsName="bker" elementValueType="string"/>
+        <BusinessSerialNumber elementName="BusinessSerialNumber" elementNsName="bker" elementValueType="string"/>
+        <TransactionCode elementName="TransactionCode" elementNsName="bker" elementValueType="string"/>
+        <ChannelType elementName="ChannelType" elementNsName="bker" elementValueType="string"/>
+        <Usage elementName="Usage" elementNsName="bker" elementValueType="string"/>
+        <Notes elementName="Notes" elementNsName="bker" elementValueType="string"/>
+        <AccountNameOfPayer elementName="AccountNameOfPayer" elementNsName="bker" elementValueType="string"/>
+        <AccountNumberOfPayer elementName="AccountNumberOfPayer" elementNsName="bker" elementValueType="string"/>
+        <OpeningBankOfPayer elementName="OpeningBankOfPayer" elementNsName="bker" elementValueType="string"/>
+        <AccountNameOfPayee elementName="AccountNameOfPayee" elementNsName="bker" elementValueType="string"/>
+        <AccountNumberOfPayee elementName="AccountNumberOfPayee" elementNsName="bker" elementValueType="string"/>
+        <OpeningBankOfPayee elementName="OpeningBankOfPayee" elementNsName="bker" elementValueType="string"/>
+        <AccountNumberOfRecipient elementName="AccountNumberOfRecipient" elementNsName="bker" elementValueType="string"/>
+        <IdentificationNumberOfRecipient elementName="IdentificationNumberOfRecipient" elementNsName="bker" elementValueType="string"/>
+    </jsonObject>
+</xbrlJson>

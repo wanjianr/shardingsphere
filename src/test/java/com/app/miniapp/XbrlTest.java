@@ -30,17 +30,20 @@ public class XbrlTest {
         String filePath1 = "C:\\Users\\wanjian\\Desktop\\xbrl\\bkrs_20210831_C103031100045562XX000000010001XXXXXX.xml";
         String id1 = "bkrs";
 
-        // 发送方回单
-        String filePath2 = "C:\\Users\\wanjian\\Desktop\\xbrl\\bker_issuer_20191231_C10303110004552019030390296600243000000000019444.xml";
-        String id2 = "bker_issuer";
+
 
         // 接收方回单
         String filePath3 = "C:\\Users\\wanjian\\Desktop\\xbrl\\bker_receiver_20191231_C10303110004552019030390296600243000000000019444.xml";
         String id3 = "bker_receiver";
-
-        String content = new String(Files.readAllBytes(Paths.get(filePath1)), "UTF-8");
-        JSONObject jsonObject = VoucherFileUtil.xbrl2Json(content, id1);
+        // 发送方回单
+        String filePath2 = "C:\\Users\\wanjian\\Desktop\\xbrl\\bker_issuer_20191231_C10303110004552019030390296600243000000000019444.xml";
+        String id2 = "bker_issuer";
+        String content = new String(Files.readAllBytes(Paths.get(filePath2)), "UTF-8");
+        JSONObject jsonObject = VoucherFileUtil.xbrl2Json(content, id2);
         System.out.println(jsonObject.toJSONString());
+//        System.out.println("=========================");
+//        String s = VoucherFileUtil.json2Xbrl(jsonObject.toJSONString(), id2);
+//        System.out.println(s);
     }
 
     @Test
