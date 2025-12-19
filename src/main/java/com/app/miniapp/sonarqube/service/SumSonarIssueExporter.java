@@ -17,31 +17,30 @@ public class SumSonarIssueExporter {
 
     public static void main(String[] args) {
 
-//        List<String> componentsList = Arrays.asList(
-//                "bsw-web",
-//                "bsw-server"
-//        );
-
         List<String> componentsList = Arrays.asList(
-                "hsa-cep-bcc",
-                "hsa-cep-bcc-ui",
-                "hsa-cep-ebc",
-                "hsa-cep-ebc-ui",
-                "hsa-ebc-bizmnit",
-                "hsa-ebc-bizmnit-ui",
-                "hsa-ebc-verf",
-                "hsa-ebc-verf-ui",
-                "hsa-hif-inc-local",
-                "hsa-hif-inc-nation",
-                "hsa-hif-inc-nation-ui",
-                "hsa-hif-mnit",
-                "hsa-hif-mnit-ui",
-                "hsa-iep-evp",
-                "templategenerator",
-                "hsa-inc-fgw",
-                "hsa-cep-tsp",
-                "hsa-cep-tsp-ui"
+                "hsa-cep-ebc"
         );
+
+//        List<String> componentsList = Arrays.asList(
+//                "hsa-cep-bcc",
+//                "hsa-cep-bcc-ui",
+//                "hsa-cep-ebc",
+//                "hsa-cep-ebc-ui",
+//                "hsa-ebc-bizmnit",
+//                "hsa-ebc-bizmnit-ui",
+//                "hsa-ebc-verf",
+//                "hsa-ebc-verf-ui",
+//                "hsa-hif-inc-local",
+//                "hsa-hif-inc-nation",
+//                "hsa-hif-inc-nation-ui",
+//                "hsa-hif-mnit",
+//                "hsa-hif-mnit-ui",
+//                "hsa-iep-evp",
+//                "templategenerator",
+//                "hsa-inc-fgw",
+//                "hsa-cep-tsp",
+//                "hsa-cep-tsp-ui"
+//        );
 
         List<String> severitiesList = Arrays.asList(
                 "BLOCKER",
@@ -67,11 +66,12 @@ public class SumSonarIssueExporter {
     public static void singleExport(String components, String severities, Map<String, String> params) {
         String baseUrl = buildBaseUrl("http://172.16.21.201:5001", components, severities, params);
 
-        String cookie = "";
+        String cookie = "jenkins-timestamper-offset=-28800000; XSRF-TOKEN=oaieogf00t095f8vpdbgk7kf0b; JWT-SESSION=eyJhbGciOiJIUzI1NiJ9.eyJsYXN0UmVmcmVzaFRpbWUiOjE3NjI4MjM0MDQ4OTAsInhzcmZUb2tlbiI6Im9haWVvZ2YwMHQwOTVmOHZwZGJnazdrZjBiIiwianRpIjoiY2Y3N2M5OTYtN2ZiMi00ZDhhLTg5MWMtMWY4ZGZiMmIzOGMxIiwic3ViIjoiMjljMmVjODktY2I0MC00ODRiLWI2NjQtYjNkOTM1OGRkNzliIiwiaWF0IjoxNzYyNDg2OTAzLCJleHAiOjE3NjMwODI2MDR9.L7FULG2y2crZLHu6op0jsn8V88qBG4kkc_qmYHGQ7rw";
         List<SonarIssue> issues = fetchAllIssues(baseUrl, cookie);
         Map<String, SumSonarIssue> ruleSummary = summarizeRules(issues);
         List<SumSonarIssue> summaryList = new ArrayList<>(ruleSummary.values());
         StringBuilder sb = new StringBuilder();
+        sb.append("20251111_");
         sb.append(components.replace("-", "_")).append("_").append(severities).append("_").append(issues.size()).append("_sonar_rule_summary.xlsx");
         exportSummaryToExcel(summaryList, sb.toString());
     }
