@@ -21,6 +21,8 @@
 <!--        <commons-io.version>2.18.0</commons-io.version>-->
         <!--对应映射转换工具 -->
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+        <!-- Jackson 版本统一管理 -->
+        <jackson.version>2.13.4</jackson.version>
     </properties>
 
     <dependencies>
@@ -191,6 +193,46 @@
             <artifactId>dom4j</artifactId>
             <version>2.1.4</version>
         </dependency>
+
+        <!-- 国密 SM4 实现（bouncycastle 扩展包，含 SM4/SM2/SM3） -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>1.78.1</version>
+        </dependency>
+
+        <!-- HTTP 客户端 -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.12.0</version>
+        </dependency>
+
+        <!-- JSON 序列化/反序列化 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <!-- 仅测试用 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+
 
     </dependencies>
 
