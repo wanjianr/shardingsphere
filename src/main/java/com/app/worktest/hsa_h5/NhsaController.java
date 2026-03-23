@@ -8,6 +8,8 @@ import com.app.worktest.hsa_h5.CryptoVerify.RequestBody;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -32,7 +34,7 @@ public class NhsaController {
     // 配置
     // ----------------------------------------------------------------
     private static final String BASE_URL   = "";
-    private static final String TOKEN_STR  = "6f011f6eedc641c79f6755bd9bb3fb11";
+    private static String TOKEN_STR  = "";
     private static final String CHANNEL    = "92";
     private static final MediaType JSON_MT = MediaType.get("application/json; charset=utf-8");
 
@@ -43,10 +45,21 @@ public class NhsaController {
     // 入口
     // ----------------------------------------------------------------
     public static void main(String[] args) throws Exception {
+        TOKEN_STR = GenTokenService.getBankH5Token();
         new NhsaController().run();
     }
 
     public void run() throws Exception {
+        // todo 通过日期工具类获取dataScpCurTime、dataScpBegnTime、dataScpNextTime
+        // 获取当前时间
+        String dataScpCurTime = "2026.03.19";
+        // 获取dataScpCurTime的前两年
+        String dataScpBegnTime = "2024.03.19";
+        // 获取dataScpCurTime的后一年
+        String dataScpNextTime = "2027.03.19";
+        // todo 通过通过@Value获取 yearList
+        List<String> yearList = Arrays.asList("2025");
+        String mdtrtType = null;
 
         // ── Step 1: getOAuthKey ──────────────────────────────────────
         String path1  = "/auth/security/getOAuthKey";
@@ -115,70 +128,73 @@ public class NhsaController {
 
         // 注意：该接口响应未加密，直接取 data.list
         JsonNode scenList = resp5.path("data").path("list");
+        for (String year : yearList) {
+            // ── Step 6: getSetlList ──────────────────────────────────────
+            String path6 = "/auth/insuAuth/getSetlList";
+            ObjectNode raw6Node = MAPPER.createObjectNode()
+                    .put("investigatedCertno",   investigatedCertno)
+                    .put("investigatedCertType", investigatedCertType)
+                    .put("psnName",              psnName)
+                    .put("dataScpBegnTime",      dataScpBegnTime)
+                    .put("dataScpEndTime",       dataScpCurTime)
+                    .put("mdtrtType",            mdtrtType)
+                    .put("year",                 year);
+            RequestBody body6 = CryptoVerify.encryptRequest(toJson(raw6Node), path6);
 
-        // ── Step 6: getSetlList ──────────────────────────────────────
-        String path6 = "/auth/insuAuth/getSetlList";
-        ObjectNode raw6Node = MAPPER.createObjectNode()
-                .put("investigatedCertno",   "210682199912120912")
-                .put("investigatedCertType", "01")
-                .put("psnName",              "王开疆")
-                .put("dataScpBegnTime",      "2024.03.19")
-                .put("dataScpEndTime",       "2026.03.19")
-                .put("mdtrtType",            "1")
-                .put("year",                 "2025");
-        RequestBody body6 = CryptoVerify.encryptRequest(toJson(raw6Node), path6);
+            JsonNode resp6 = post(BASE_URL + path6, body6);
+            System.out.println("[getSetlList] 响应(加密): " + resp6);
 
-        JsonNode resp6 = post(BASE_URL + path6, body6);
-        System.out.println("[getSetlList] 响应(加密): " + resp6);
+            JsonNode decResp6 = MAPPER.readTree(
+                    CryptoVerify.decryptResponse(resp6.path("data").asText(), body6.noceStr, path6));
+            // todo 响应数据判空，若为空则跳过后续步骤
+            System.out.println("[getSetlList] 解密结果: " + decResp6.toPrettyString());
 
-        JsonNode decResp6 = MAPPER.readTree(
-                CryptoVerify.decryptResponse(resp6.path("data").asText(), body6.noceStr, path6));
-        System.out.println("[getSetlList] 解密结果: " + decResp6.toPrettyString());
+            JsonNode setlList = decResp6.path("list");
 
-        JsonNode setlList = decResp6.path("list");
+            // ── Step 7: saveEventTrack（第二次）──────────────────────────
+            String path7  = "/eventTrack/saveEventTrack";
+            String raw7   = toJson(MAPPER.createObjectNode()
+                    .put("oprtBhvr", "400").put("oprtFlag", "1"));
+            RequestBody body7 = CryptoVerify.encryptRequest(raw7, path7);
 
-        // ── Step 7: saveEventTrack（第二次）──────────────────────────
-        String path7  = "/eventTrack/saveEventTrack";
-        String raw7   = toJson(MAPPER.createObjectNode()
-                .put("oprtBhvr", "400").put("oprtFlag", "1"));
-        RequestBody body7 = CryptoVerify.encryptRequest(raw7, path7);
+            JsonNode resp7 = post(BASE_URL + "/eventTrack/saveEventTrack", body7);
+            System.out.println("[saveEventTrack #2] 响应: " + resp7);
 
-        JsonNode resp7 = post(BASE_URL + "/eventTrack/saveEventTrack", body7);
-        System.out.println("[saveEventTrack #2] 响应: " + resp7);
+            // ── Step 8: confirm ──────────────────────────────────────────
+            String path8 = "/auth/insuAuth/confirm";
 
-        // ── Step 8: confirm ──────────────────────────────────────────
-        String path8 = "/auth/insuAuth/confirm";
+            // 构建 authScenDDTOList
+            ArrayNode authScenList = MAPPER.createArrayNode();
+            for (JsonNode scen : scenList) {
+                authScenList.add(MAPPER.createObjectNode().put("scenId", scen.path("scenId").asText()));
+            }
 
-        // 构建 authScenDDTOList
-        ArrayNode authScenList = MAPPER.createArrayNode();
-        for (JsonNode scen : scenList) {
-            authScenList.add(MAPPER.createObjectNode().put("scenId", scen.path("scenId").asText()));
+            // 构建 setlList（仅保留 setlTime + setlId）
+            ArrayNode setlListReq = MAPPER.createArrayNode();
+            for (JsonNode item : setlList) {
+                setlListReq.add(MAPPER.createObjectNode()
+                        .put("setlTime", item.path("setlTime").asText())
+                        .put("setlId",   item.path("setlId").asText()));
+            }
+
+            ObjectNode authJoinDTO = MAPPER.createObjectNode()
+                    .put("usedEndTime",      dataScpNextTime)
+                    .put("dataScpBegnTime",  dataScpBegnTime)
+                    .put("dataScpEndTime",   dataScpNextTime)
+                    .put("insuAdmdvs",       insuAdmdvsCode);
+            authJoinDTO.set("authScenDDTOList", authScenList);
+
+            ObjectNode raw8Node = MAPPER.createObjectNode();
+            raw8Node.set("authJoinDTO", authJoinDTO);
+            raw8Node.set("setlList",    setlListReq);
+
+            System.out.println("[confirm] 请求参数: " + raw8Node.toPrettyString());
+            RequestBody body8 = CryptoVerify.encryptRequest(toJson(raw8Node), path8);
+
+            JsonNode resp8 = post(BASE_URL + path8, body8);
+            System.out.println("[confirm] 响应: " + resp8);
         }
 
-        // 构建 setlList（仅保留 setlTime + setlId）
-        ArrayNode setlListReq = MAPPER.createArrayNode();
-        for (JsonNode item : setlList) {
-            setlListReq.add(MAPPER.createObjectNode()
-                    .put("setlTime", item.path("setlTime").asText())
-                    .put("setlId",   item.path("setlId").asText()));
-        }
-
-        ObjectNode authJoinDTO = MAPPER.createObjectNode()
-                .put("usedEndTime",      "2027.03.19")
-                .put("dataScpBegnTime",  "2024.03.19")
-                .put("dataScpEndTime",   "2027.03.19")
-                .put("insuAdmdvs",       insuAdmdvsCode);
-        authJoinDTO.set("authScenDDTOList", authScenList);
-
-        ObjectNode raw8Node = MAPPER.createObjectNode();
-        raw8Node.set("authJoinDTO", authJoinDTO);
-        raw8Node.set("setlList",    setlListReq);
-
-        System.out.println("[confirm] 请求参数: " + raw8Node.toPrettyString());
-        RequestBody body8 = CryptoVerify.encryptRequest(toJson(raw8Node), path8);
-
-        JsonNode resp8 = post(BASE_URL + path8, body8);
-        System.out.println("[confirm] 响应: " + resp8);
     }
 
     // ----------------------------------------------------------------

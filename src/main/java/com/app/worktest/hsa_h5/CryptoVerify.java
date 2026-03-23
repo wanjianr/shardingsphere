@@ -45,26 +45,13 @@ public class CryptoVerify {
     /** 使用硬编码密钥的接口路径集合（对应 Python USE_PRIVATE_KEY_URLS） */
     private static final Set<String> USE_PRIVATE_KEY_URLS = new HashSet<>(
             Arrays.asList(
-            "/auth/login/appToken",
-            "/auth/login/wxOpenidToken",
-            "/auth/login/alipayOpenidToken",
-            "/webService/getPsnCertTypeList",
-            "/notice/getStatus",
-            "/ali/service/getAliLogin",
-            "/auth/security/getOAuthKey",
-            "/ali/service/getAliPayUid",
-            "/wx/service/getWxLogin",
-            "/wx/service/getAuthCodeDetails",
-            "/auth/login/getDetailsByAppAccessToken",
-            "/auth/login/getDialogContent"
+            "/auth/security/getOAuthKey"
     ));
 
     /** 响应需要 SM4 解密的接口路径集合（对应 Python NEED_DECRYPT_URLS） */
     private static final Set<String> NEED_DECRYPT_URLS = new HashSet<>(
             Arrays.asList(
             "/auth/login/v2/checkToken",
-            "/wx/service/getAuthCodeDetails",
-            "/ali/service/getAliPayUid",
             "/auth/insuAuth/listOptLogByPsnNo",
             "/auth/insuAuth/listIntfUseLogByPsnNo",
             "/auth/insuAuth/getInsuInfoByCert",
