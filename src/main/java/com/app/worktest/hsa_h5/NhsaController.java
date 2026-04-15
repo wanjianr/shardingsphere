@@ -33,7 +33,7 @@ public class NhsaController {
     // ----------------------------------------------------------------
     // 配置
     // ----------------------------------------------------------------
-    private static final String BASE_URL   = "";
+    private static final String BASE_URL   = "https://cas-datashare-test.nhsa.gov.cn:30080/aaoi/web";
     private static String TOKEN_STR  = "";
     private static final String CHANNEL    = "92";
     private static final MediaType JSON_MT = MediaType.get("application/json; charset=utf-8");
